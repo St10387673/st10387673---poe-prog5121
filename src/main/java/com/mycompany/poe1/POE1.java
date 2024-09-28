@@ -51,9 +51,9 @@ public class POE1 {
         String loginPassword = scanner.nextLine();
 
         if (loginUsername.equals(username) && loginPassword.equals(password)) {
-            System.out.print("Login successful!");
+            System.out.print("welcome! it is great to see you again");
         } else {
-            System.out.print("Login failed! Invalid username or password.");
+            System.out.print("username or password is incorrect , please try again!.");
         }
     }
 
