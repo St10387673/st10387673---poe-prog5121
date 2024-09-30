@@ -11,59 +11,55 @@ import java.util.Scanner;
  * @author RC_Student_lab
  */
 public class POE1 {
-
-    public static void main(String[] args) {
+     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        Checkuser checkuser = new Checkuser(); // Create an instance of Checkuser
 
-        System.out.println("Enter your first name: ");
+        // Step 1: Register
+        System.out.print("Enter your first name: ");
         String firstName = scanner.nextLine();
 
-        System.out.println("Enter your last name: ");
+        System.out.print("Enter your last name: ");
         String lastName = scanner.nextLine();
 
-        System.out.println("Create your username (max 5 characters, must contain '_'): ");
+        System.out.print("Create your username: ");
         String username = scanner.nextLine();
 
-        // Validate username
-        while (!isValidUsername(username)) {
-            System.out.print("Invalid username. Username must be up to 5 characters and contain an underscore ('_').");
-            System.out.println("Create your username again: ");
-            username = scanner.nextLine();
-        }
-
-        System.out.println("Create your password (max 8 characters, must contain '_'): ");
+        System.out.print("Create your password: ");
         String password = scanner.nextLine();
 
-        // Validate password
-        while (!isValidPassword(password)) {
-            System.out.print("Invalid password. Password must be up to 8 characters and contain an underscore ('_').");
-            System.out.println("Create your password again: ");
-            password = scanner.nextLine();
+        // Register the user using the Checkuser class
+        String registrationMessage = checkuser.registerUser(username, password);
+        System.out.println(registrationMessage);
+
+        // If registration fails, exit the program
+        if (!registrationMessage.equals("User registered successfully.")) {
+            System.out.println("Registration failed. Please restart the program and try again.");
+            scanner.close();
+            return;
         }
 
-        // User successfully created
-        System.out.print("User created successfully with Username: " + username + " and Password: " + password);
+        // Step 2: Login
+        System.out.println("\nRegistration Successful! Please log in.\n");
 
-        System.out.println("Please enter your username to login: ");
+        System.out.print("Enter your username: ");
         String loginUsername = scanner.nextLine();
 
-        System.out.println("Please enter your password to login: ");
+        System.out.print("Enter your password: ");
         String loginPassword = scanner.nextLine();
 
-        if (loginUsername.equals(username) && loginPassword.equals(password)) {
-            System.out.print("welcome! it is great to see you again");
-        } else {
-            System.out.print("username or password is incorrect , please try again!.");
+        // Validate login credentials using the Checkuser class
+        boolean loginSuccess = checkuser.loginUser(loginUsername, loginPassword);
+
+        // Get the login status message from the Checkuser class
+        String loginStatusMessage = checkuser.returnLoginStatus(loginSuccess);
+        System.out.println(loginStatusMessage);
+
+        // Display a personalized message for successful login
+        if (loginSuccess) {
+            System.out.println("Welcome it is great to see you again!;), " + firstName + " " + lastName + "!");
         }
-    }
 
-    // Method to validate username
-    private static boolean isValidUsername(String username) {
-        return username.contains("_") && username.length() <= 5;
-    }
-
-    // Method to validate password
-    private static boolean isValidPassword(String password) {
-        return password.contains("_") && password.length() <= 8;
+        scanner.close();
     }
 }
